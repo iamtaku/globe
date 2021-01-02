@@ -100,23 +100,34 @@ function init() {
 
   var earth = new Earth(1.0, texture);
 
-  earth.createMarker(48.8567, 2.3508); // Paris
-  earth.createMarker(51.507222, -0.1275); // London
-  earth.createMarker(34.05, -118.25); // LA
-  earth.createMarker(41.836944, -87.684722); // Chicago
-  earth.createMarker(35.683333, 139.683333); // Tokyo
-  earth.createMarker(33.333333, 44.383333); // Baghdad
-  earth.createMarker(40.7127, -74.0059); // New York
+  // call our api and iterate over coordinates
+  fetch("http://localhost:3000/api/v1/places.json")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      data.data.forEach((item) => {
+        const { latitude, longitude } = item.attributes;
+        earth.createMarker(latitude, longitude);
+      });
+    })
+    .catch((err) => console.log(err));
+  // earth.createMarker(48.8567, 2.3508); // Paris
+  // earth.createMarker(51.507222, -0.1275); // London
+  // earth.createMarker(34.05, -118.25); // LA
+  // earth.createMarker(41.836944, -87.684722); // Chicago
+  // earth.createMarker(35.683333, 139.683333); // Tokyo
+  // earth.createMarker(33.333333, 44.383333); // Baghdad
+  // earth.createMarker(40.7127, -74.0059); // New York
 
-  earth.createMarker(55.75, 37.616667); // Moscow
-  earth.createMarker(35.1175, -89.971111); // Memphis
-  earth.createMarker(-33.925278, 18.423889); // Cape Town
-  earth.createMarker(32.775833, -96.796667); // Dallas
-  earth.createMarker(52.366667, 4.9); // Amsterdam
-  earth.createMarker(42.358056, -71.063611); // Boston
-  earth.createMarker(52.507222, 13.145833); // Berlin
+  // earth.createMarker(55.75, 37.616667); // Moscow
+  // earth.createMarker(35.1175, -89.971111); // Memphis
+  // earth.createMarker(-33.925278, 18.423889); // Cape Town
+  // earth.createMarker(32.775833, -96.796667); // Dallas
+  // earth.createMarker(52.366667, 4.9); // Amsterdam
+  // earth.createMarker(42.358056, -71.063611); // Boston
+  // earth.createMarker(52.507222, 13.145833); // Berlin
 
-  earth.createMarker(37.783333, -122.416667); // San Francisco
+  // earth.createMarker(37.783333, -122.416667); // San Francisco
 
   scene.add(earth);
 
